@@ -17,22 +17,24 @@ var addCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Add a new todo",
 	Long:  `Add will create a new todo item to the list`,
-	Run: func(cmd *cobra.Command, args []string) {
-		items, err := todo.ReadItems(dataFile)
-		if err != nil {
-			fmt.Errorf("%v", err)
-		}
+	Run:   addRun,
+}
 
-		for _, arg := range args {
-			item := todo.Item{Text: arg}
-			item.SetPriority(priority)
-			items = append(items, item)
-		}
-		err = todo.SaveItems(dataFile, items)
-		if err != nil {
-			fmt.Errorf("%v", err)
-		}
-	},
+func addRun(cmd *cobra.Command, args []string) {
+	items, err := todo.ReadItems(dataFile)
+	if err != nil {
+		fmt.Errorf("%v", err)
+	}
+
+	for _, arg := range args {
+		item := todo.Item{Text: arg}
+		item.SetPriority(priority)
+		items = append(items, item)
+	}
+	err = todo.SaveItems(dataFile, items)
+	if err != nil {
+		fmt.Errorf("%v", err)
+	}
 }
 
 func init() {
