@@ -10,6 +10,7 @@ type Item struct {
 	Text     string
 	Priority int
 	position int
+	Done     bool
 }
 
 func (i *Item) SetPriority(pri int) {
@@ -38,6 +39,12 @@ func (i *Item) Label() string {
 	return strconv.Itoa(i.position) + "."
 }
 
+func (i *Item) PrettyDone() string {
+	if i.Done {
+		return "X"
+	}
+	return ""
+}
 func SaveItems(filename string, items []Item) error {
 	b, err := json.Marshal(items)
 	if err != nil {
@@ -81,6 +88,9 @@ func (s ByPri) Swap(i, j int) {
 }
 
 func (s ByPri) Less(i, j int) bool {
+	if s[i].Done != s[j].Done {
+		return s[i].Done
+	}
 	if s[i].Priority == s[j].Priority {
 		return s[i].position < s[j].position
 	}
