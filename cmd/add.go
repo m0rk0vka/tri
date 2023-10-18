@@ -20,7 +20,7 @@ var addCmd = &cobra.Command{
 		for _, arg := range args {
 			items = append(items, todo.Item{Text: arg})
 		}
-		err := todo.SaveItems("/Users/t.vladimir/.tridos.json", items)
+		err := todo.SaveItems(dataFile, items)
 		if err != nil {
 			fmt.Errorf("%v", err)
 		}
